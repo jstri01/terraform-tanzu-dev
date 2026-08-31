@@ -14,10 +14,10 @@
 
 provider "vsphere" {
 
-  user                 = var.vsphere_user
-  password             = var.vsphere_password
+  user     = var.vsphere_user
+  password = var.vsphere_password
 
-  vsphere_server       = var.vsphere_server
+  vsphere_server = var.vsphere_server
 
   allow_unverified_ssl = true
 }
@@ -90,7 +90,7 @@ data "vsphere_content_library" "dev_tanzu" {
 
 data "vsphere_datastore" "primary_datastore" {
 
-  name          = var.datastore_name
+  name = var.datastore_name
 
   datacenter_id = data.vsphere_datacenter.development.id
 }

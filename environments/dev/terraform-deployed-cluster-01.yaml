@@ -1,0 +1,161 @@
+#############################################################
+# Tanzu / VKS Cluster Definition
+#
+# Purpose:
+# Define a new VKS cluster that will be deployed into the
+# Supervisor Namespace:
+#
+#   dev-terraform-deployment-ns
+#
+# This file is currently being used for validation only.
+#
+# We will perform a server-side dry run to verify:
+#
+# - ClusterClass exists
+# - Kubernetes version is supported
+# - VM Class is valid
+# - Storage Class is valid
+# - Namespace has required entitlements
+#
+# If validation succeeds, this cluster definition will
+# later be translated into Terraform-managed resources.
+#
+# Target Cluster:
+#   terraform-deployed-cluster-01
+#
+# ClusterClass:
+#   builtin-generic-v3.6.0
+#
+# Kubernetes Version:
+#   v1.35.5+vmware.1
+#
+#############################################################
+
+apiVersion: cluster.x-k8s.io/v1beta2
+kind: Cluster
+
+metadata:
+
+  # Name of the Tanzu Kubernetes Cluster
+  name: terraform-deployed-cluster-01
+
+  # Supervisor Namespace where the cluster
+  # will be deployed.
+  namespace: dev-terraform-deployment-ns
+
+spec:
+
+  topology:
+
+    #########################################################
+    # ClusterClass Definition
+    #
+    # We previously confirmed this ClusterClass exists
+    # in the shared public namespace:
+    #
+    # vmware-system-vks-public
+    #
+    #########################################################
+
+    classRef:
+      name: builtin-generic-v3.6.0
+      namespace: vmware-system-vks-public
+
+    #########################################################
+    # Kubernetes Version
+    #
+    # Previously discovered from the running
+    # dev-demo-cluster.
+    #
+    #########################################################
+
+    version: v1.35.5+vmware.1
+
+    #########################################################
+    # Control Plane Configuration
+    #
+    # Starting with a single control plane node
+    # for lab/testing purposes.
+    #
+    #########################################################
+
+    controlPlane:
+      replicas: 1
+
+    #########################################################
+    # Worker Node Configuration
+    #
+    # Starting with a single worker node.
+    #
+    #########################################################
+
+    workers:
+      machineDeployments:
+
+      - class: node-pool
+        name: worker
+        replicas: 1
+
+    #########################################################
+    # Required ClusterClass Variables
+    #
+    # Earlier investigation of
+    # builtin-generic-v3.6.0 confirmed:
+    #
+    # Required:
+    #   vmClass
+    #   storageClass
+    #
+    #########################################################
+
+    variables:
+
+    - name: vmClass
+      value: best-effort-small
+
+    - name: storageClass
+      value: dev-k8-storagepolicy
+
+      spec:
+
+  spec:
+
+  #########################################################
+  # Cluster Network Configuration
+  #########################################################
+
+  clusterNetwork:
+
+    pods:
+      cidrBlocks:
+      - 192.168.0.0/16
+
+    services:
+      cidrBlocks:
+      - 10.96.0.0/12
+
+  topology:
+
+    classRef:
+      name: builtin-generic-v3.6.0
+      namespace: vmware-system-vks-public
+
+    version: v1.35.5+vmware.1
+
+    controlPlane:
+      replicas: 1
+
+    workers:
+      machineDeployments:
+      - class: node-pool
+        name: worker
+        replicas: 1
+
+    variables:
+
+    - name: vmClass
+      value: best-effort-small
+
+    - name: storageClass
+      value: dev-k8-storagepolicy
+

@@ -21,13 +21,16 @@ terraform {
 
   required_providers {
 
-    #########################################################
-    # VMware vSphere Provider
-    #########################################################
     vsphere = {
       source  = "vmware/vsphere"
       version = "~> 2.13"
     }
 
+    kubernetes = {
+      source  = "hashicorp/kubernetes"
+      version = "~> 2.38"
+    }
+
   }
+
 }
