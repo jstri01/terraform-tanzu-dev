@@ -20,3 +20,15 @@
 ## Purpose
 
 This document records the discovered inventory objects used by the Terraform learning environment.
+
+## Storage Policy
+
+DEV-K8-StoragePolicy
+
+## Content Library
+
+Dev-Tanzu
+
+## Namespace
+
+dev-demo-ns
