@@ -22,3 +22,36 @@ output "cluster_id" {
 
   value = data.vsphere_compute_cluster.cluster01.id
 }
+
+#############################################################
+# Storage Policy ID
+#############################################################
+
+output "storage_policy_id" {
+
+  description = "Storage Policy ID"
+
+  value = data.vsphere_storage_policy.dev_k8_storage.id
+}
+
+#############################################################
+# Content Library ID
+#############################################################
+
+output "content_library_id" {
+
+  description = "Content Library ID"
+
+  value = data.vsphere_content_library.dev_tanzu.id
+}
+
+#############################################################
+# Datastore ID
+#############################################################
+
+output "datastore_id" {
+
+  description = "Primary datastore ID"
+
+  value = data.vsphere_datastore.primary_datastore.id
+}

@@ -48,3 +48,57 @@ variable "vsphere_password" {
   type      = string
   sensitive = true
 }
+#############################################################
+# Datacenter Name
+#############################################################
+
+variable "datacenter_name" {
+
+  description = "DEV Datacenter Name"
+
+  type = string
+}
+
+#############################################################
+# Cluster Name
+#############################################################
+
+variable "cluster_name" {
+
+  description = "vSphere Cluster Name"
+
+  type = string
+}
+
+#############################################################
+# Storage Policy Name
+#############################################################
+
+variable "storage_policy_name" {
+
+  description = "Storage Policy Name"
+
+  type = string
+}
+
+#############################################################
+# Content Library Name
+#############################################################
+
+variable "content_library_name" {
+
+  description = "Content Library Name"
+
+  type = string
+}
+
+#############################################################
+# Datastore Name
+#############################################################
+
+variable "datastore_name" {
+
+  description = "Primary datastore for DEV workloads"
+
+  type = string
+}

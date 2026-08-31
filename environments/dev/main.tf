@@ -38,7 +38,7 @@ provider "vsphere" {
 
 data "vsphere_datacenter" "development" {
 
-  name = "Development"
+  name = var.datacenter_name
 }
 #############################################################
 # Cluster Lookup
@@ -49,7 +49,48 @@ data "vsphere_datacenter" "development" {
 
 data "vsphere_compute_cluster" "cluster01" {
 
-  name          = "cluster-01"
+  name = var.cluster_name
+
+  datacenter_id = data.vsphere_datacenter.development.id
+}
+
+#############################################################
+# Storage Policy Lookup
+#
+# Locate the Tanzu storage policy used by
+# Supervisor and Tanzu workloads.
+#
+#############################################################
+
+data "vsphere_storage_policy" "dev_k8_storage" {
+
+  name = var.storage_policy_name
+}
+
+#############################################################
+# Content Library Lookup
+#
+# Tanzu uses content libraries to provide
+# Kubernetes node images.
+#
+#############################################################
+
+data "vsphere_content_library" "dev_tanzu" {
+
+  name = var.content_library_name
+}
+
+#############################################################
+# Datastore Lookup
+#
+# Discover the primary datastore used for
+# DEV workloads.
+#
+#############################################################
+
+data "vsphere_datastore" "primary_datastore" {
+
+  name          = var.datastore_name
 
   datacenter_id = data.vsphere_datacenter.development.id
 }
