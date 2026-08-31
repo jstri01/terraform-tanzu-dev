@@ -102,3 +102,67 @@ variable "datastore_name" {
 
   type = string
 }
+
+#############################################################
+# VKS Cluster Variables
+#
+# Purpose:
+# Parameters used when deploying Tanzu/VKS clusters.
+#
+# Change these values in terraform.tfvars when a
+# new cluster request arrives.
+#
+#############################################################
+
+variable "vks_cluster_name" {
+  description = "Name of the VKS cluster."
+  type        = string
+}
+
+variable "vks_kubernetes_version" {
+  description = "Kubernetes version deployed to the cluster."
+  type        = string
+}
+
+variable "vks_vm_class" {
+  description = "VM Class used by control plane and workers."
+  type        = string
+}
+
+variable "vks_storage_class" {
+  description = "Storage Class assigned to cluster volumes."
+  type        = string
+}
+
+variable "vks_control_plane_count" {
+  description = "Number of control plane nodes."
+  type        = number
+}
+
+variable "vks_worker_count" {
+  description = "Number of worker nodes."
+  type        = number
+}
+
+#############################################################
+# EVO Cluster Variables
+#
+# Purpose:
+# Parameters used when deploying the EVO development cluster.
+#
+#############################################################
+
+variable "evo_cluster_name" {
+  description = "EVO cluster name."
+  type        = string
+}
+
+variable "evo_vm_class" {
+  description = "VM Class for EVO."
+  type        = string
+}
+
+variable "evo_worker_count" {
+  description = "Worker count for EVO."
+  type        = number
+}

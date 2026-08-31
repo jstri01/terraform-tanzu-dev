@@ -24,7 +24,7 @@ kind: Cluster
 metadata:
 
   # Name of the Tanzu Kubernetes Cluster
-  name: terraform-deployed-cluster-01
+  name: ${cluster_name}
 
   # Supervisor Namespace where the cluster will be deployed
   namespace: dev-terraform-deployment-ns
@@ -58,16 +58,16 @@ spec:
       name: builtin-generic-v3.6.0
       namespace: vmware-system-vks-public
 
-    version: v1.35.5+vmware.1
+    version: ${kubernetes_version}
 
     controlPlane:
-      replicas: 1
+      replicas: ${control_plane_count}
 
     workers:
       machineDeployments:
       - class: node-pool
         name: worker
-        replicas: 1
+        replicas: ${worker_count}
 
     #######################################################
     # Required ClusterClass Variables
@@ -76,10 +76,10 @@ spec:
     variables:
 
     - name: vmClass
-      value: best-effort-small
+      value: ${vm_class}
 
     - name: storageClass
-      value: dev-k8-storagepolicy
+      value: ${storage_class}
 
     - name: kubernetes
       value:
