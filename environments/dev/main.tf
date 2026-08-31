@@ -21,3 +21,35 @@ provider "vsphere" {
 
   allow_unverified_ssl = true
 }
+
+#############################################################
+# Datacenter Lookup
+#
+# This is our first vSphere data source.
+#
+# Data sources allow Terraform to READ existing
+# infrastructure without creating or modifying anything.
+#
+# In this case we are telling Terraform:
+#
+# "Find the Datacenter named Development"
+#
+#############################################################
+
+data "vsphere_datacenter" "development" {
+
+  name = "Development"
+}
+#############################################################
+# Cluster Lookup
+#
+# Find the vSphere Cluster where workloads run.
+#
+#############################################################
+
+data "vsphere_compute_cluster" "cluster01" {
+
+  name          = "cluster-01"
+
+  datacenter_id = data.vsphere_datacenter.development.id
+}

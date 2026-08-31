@@ -25,7 +25,7 @@ terraform {
     # VMware vSphere Provider
     #########################################################
     vsphere = {
-      source  = "hashicorp/vsphere"
+      source  = "vmware/vsphere"
       version = "~> 2.13"
     }
 
