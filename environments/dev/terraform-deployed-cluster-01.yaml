@@ -80,3 +80,15 @@ spec:
 
     - name: storageClass
       value: dev-k8-storagepolicy
+
+    - name: kubernetes
+      value:
+        certificateRotation:
+          enabled: true
+          renewalDaysBeforeExpiry: 90
+
+    - name: bootstrapAddons
+      value:
+        cniRef:
+          name: antrea
+          namespace: vmware-system-vks-public
