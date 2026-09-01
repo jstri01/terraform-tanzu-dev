@@ -104,65 +104,24 @@ variable "datastore_name" {
 }
 
 #############################################################
-# VKS Cluster Variables
+# VKS Cluster Catalog
 #
 # Purpose:
-# Parameters used when deploying Tanzu/VKS clusters.
+# Defines all Tanzu/VKS clusters managed by Terraform.
 #
-# Change these values in terraform.tfvars when a
-# new cluster request arrives.
-#
-#############################################################
-
-variable "vks_cluster_name" {
-  description = "Name of the VKS cluster."
-  type        = string
-}
-
-variable "vks_kubernetes_version" {
-  description = "Kubernetes version deployed to the cluster."
-  type        = string
-}
-
-variable "vks_vm_class" {
-  description = "VM Class used by control plane and workers."
-  type        = string
-}
-
-variable "vks_storage_class" {
-  description = "Storage Class assigned to cluster volumes."
-  type        = string
-}
-
-variable "vks_control_plane_count" {
-  description = "Number of control plane nodes."
-  type        = number
-}
-
-variable "vks_worker_count" {
-  description = "Number of worker nodes."
-  type        = number
-}
-
-#############################################################
-# EVO Cluster Variables
-#
-# Purpose:
-# Parameters used when deploying the EVO development cluster.
+# Add additional clusters in terraform.tfvars.
 #
 #############################################################
 
-variable "evo_cluster_name" {
-  description = "EVO cluster name."
-  type        = string
-}
+variable "vks_clusters" {
 
-variable "evo_vm_class" {
-  description = "VM Class for EVO."
-  type        = string
-}
+  description = "Catalog of Tanzu/VKS clusters."
 
-variable "evo_worker_count" {
-  description = "Worker count for EVO."
-  type        = number
+  type = map(object({
+    kubernetes_version  = string
+    vm_class            = string
+    storage_class       = string
+    control_plane_count = number
+    worker_count        = number
+  }))
 }

@@ -2,53 +2,31 @@
 # Tanzu / VKS Cluster Deployment
 #
 # Purpose:
-# Deploy a Tanzu Kubernetes Cluster using a reusable
-# Terraform template.
+# Deploy one or more VKS clusters from the
+# vks_clusters catalog defined in terraform.tfvars.
+#
+# Future workflow:
+#
+# 1. Add a cluster entry to vks_clusters
+# 2. terraform plan
+# 3. terraform apply
 #
 #############################################################
 
-resource "kubernetes_manifest" "vks_cluster" {
+resource "kubernetes_manifest" "clusters" {
+
+  for_each = var.vks_clusters
 
   manifest = yamldecode(
     templatefile(
       "${path.module}/cluster.yaml.tpl",
       {
-        cluster_name        = var.vks_cluster_name
-        kubernetes_version  = var.vks_kubernetes_version
-        vm_class            = var.vks_vm_class
-        storage_class       = var.vks_storage_class
-        control_plane_count = var.vks_control_plane_count
-        worker_count        = var.vks_worker_count
-      }
-    )
-  )
-}
-
-#############################################################
-# EVO Development Cluster
-#
-# Purpose:
-# Deploy a dedicated development cluster for the
-# EVO application team.
-#
-# This resource uses the same validated ClusterClass
-# and Kubernetes version that were successfully used
-# for terraform-deployed-cluster-01.
-#
-#############################################################
-
-resource "kubernetes_manifest" "evo_cluster" {
-
-  manifest = yamldecode(
-    templatefile(
-      "${path.module}/cluster-evo.yaml.tpl",
-      {
-        cluster_name        = var.evo_cluster_name
-        kubernetes_version  = var.vks_kubernetes_version
-        vm_class            = var.evo_vm_class
-        storage_class       = var.vks_storage_class
-        control_plane_count = 1
-        worker_count        = var.evo_worker_count
+        cluster_name        = each.key
+        kubernetes_version  = each.value.kubernetes_version
+        vm_class            = each.value.vm_class
+        storage_class       = each.value.storage_class
+        control_plane_count = each.value.control_plane_count
+        worker_count        = each.value.worker_count
       }
     )
   )
